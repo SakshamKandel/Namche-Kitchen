@@ -5,30 +5,26 @@
 
 export const SITE = {
   name: process.env.NEXT_PUBLIC_SITE_NAME ?? "Namche Kitchen",
-  tagline: "Himalayan kitchen, made with heart",
+  tagline: "Flavours Beyond Borders",
   description:
-    "Authentic Himalayan and Middle-Eastern comfort food — momo, chowmein, shawarma, curries and more. Dine in, take out, or order online.",
-  // TODO: replace the placeholders below with the restaurant's real details.
+    "Namche Kitchen brings the rich flavours of Nepal and Asia to Ottawa — traditional Nepali momo and Hakka noodles, freshly prepared shawarma, burgers, wings, butter chicken and chilli. Made with fresh ingredients and bold spices. Dine in, take out, or order online.",
   orderUrl:
     process.env.NEXT_PUBLIC_ORDER_URL ?? "https://online.namchekitchen.ca",
-  phone: "(403) 555-0142",
-  phoneHref: "tel:+14035550142",
-  email: "hello@namchekitchen.ca",
+  phone: "(613) 761-1616",
+  phoneHref: "tel:+16137611616",
+  email: "namcheottawa@gmail.com",
   address: {
-    line1: "1140 Kensington Rd NW",
-    line2: "Calgary, AB T2N 3P5",
-    mapHref: "https://maps.google.com/?q=Namche+Kitchen+Calgary",
+    line1: "1230 Wellington St. W",
+    line2: "Ottawa, ON K1Y 3A1",
+    mapHref: "https://maps.google.com/?q=Namche+Kitchen+1230+Wellington+St+W+Ottawa",
   },
-  // Map pin — keep this in sync with `address` above. (Kensington, Calgary.)
-  geo: { lat: 51.0526, lng: -114.0935 },
-  hours: [
-    { days: "Mon – Thu", time: "11:30 AM – 9:00 PM" },
-    { days: "Fri – Sat", time: "11:30 AM – 10:00 PM" },
-    { days: "Sunday", time: "12:00 PM – 9:00 PM" },
-  ],
+  // Map pin — keep this in sync with `address` above. (Wellington West, Ottawa.)
+  geo: { lat: 45.4017, lng: -75.7286 },
+  hours: [{ days: "Every day", time: "11:00 AM – 10:00 PM" }],
   social: {
     instagram: "https://instagram.com/namchekitchen",
     facebook: "https://facebook.com/namchekitchen",
+    tiktok: "https://tiktok.com/@namchekitchen",
   },
 } as const;
 
@@ -38,11 +34,11 @@ export const SITE = {
  */
 export const ANNOUNCEMENT = {
   enabled: true,
-  id: "summer-2026-free-delivery",
+  id: "2026-ottawa-open",
   messages: [
-    "Free delivery on orders over $40 across Calgary",
-    "Hand-folded momo, made fresh every morning",
-    "Now taking table reservations & catering enquiries",
+    "Open every day, 11 AM – 10 PM on Wellington St. W, Ottawa",
+    "Hand-folded momo, made fresh every day",
+    "Order online for pickup & delivery — DoorDash & Uber Eats too",
   ],
 } as const;
 
@@ -51,7 +47,8 @@ export const NAV_LINKS = [
   { href: "/menu", label: "Menu" },
   { href: "/reservations", label: "Book a Table" },
   { href: "/catering", label: "Catering" },
-  { href: "/about", label: "Our Story" },
+  { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
 ] as const;
 
 /** Known dietary / highlight tags and how to render them. */

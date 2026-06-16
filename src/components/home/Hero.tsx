@@ -23,7 +23,7 @@ export function Hero() {
         <div className="flex flex-col items-start gap-6">
           <Reveal>
             <p className="text-xs font-medium uppercase tracking-[0.2em] text-forest-400">
-              Calgary&apos;s Himalayan Kitchen
+              Ottawa&apos;s Himalayan Kitchen
             </p>
           </Reveal>
 
@@ -74,7 +74,7 @@ export function Hero() {
               </Link>
               <span className="flex items-center gap-1.5">
                 <Star className="h-3.5 w-3.5 fill-gold-400 text-gold-400" />
-                Loved across Calgary
+                Loved across Ottawa
               </span>
               <OpenStatus variant="pill" />
             </div>

@@ -2,8 +2,8 @@
  * Seeds the Namche Kitchen menu + an admin user.
  * Run with: npm run db:seed   (loads .env via `prisma db seed`)
  *
- * Prices are realistic CAD estimates transcribed from the menu — the owner
- * can edit every field (and upload photos) from the admin panel.
+ * Menu transcribed from the live namchekitchen.ca menu. The owner can edit
+ * every field (and upload photos) from the admin panel.
  */
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
@@ -17,6 +17,7 @@ type SeedItem = {
   priceLabel?: string;
   options?: string;
   tags?: string;
+  spiceLevel?: number;
   featured?: boolean;
 };
 
@@ -33,65 +34,21 @@ const MENU: SeedCategory[] = [
     slug: "momo",
     tagline: "Hand-folded Himalayan dumplings, steamed to order",
     items: [
-      {
-        name: "Steam Momo",
-        description:
-          "Ten delicate dumplings steamed to order, served with our house tomato–sesame achar.",
-        price: 13.99,
-        options: "Chicken / Veg",
-        tags: "popular",
-        featured: true,
-      },
-      {
-        name: "Soup (Jhol) Momo",
-        description: "Momo bathed in a warm, spiced jhol broth.",
-        price: 15.99,
-        options: "Chicken / Veg",
-        tags: "spicy",
-      },
-      {
-        name: "Pan-Fried Momo",
-        description: "Crisp-bottomed, pan-seared dumplings.",
-        price: 15.49,
-        options: "Chicken / Veg",
-      },
-      {
-        name: "Chilli Momo",
-        description:
-          "Wok-tossed in a sweet-and-spicy chilli glaze with peppers and onion.",
-        price: 15.49,
-        options: "Chicken / Veg",
-        tags: "spicy",
-      },
+      { name: "Steam Momo", description: "Made with seasoned chicken and our homemade sauce, with spicy chili dip.", price: 14.99, options: "Chicken / Vegetarian", tags: "popular", featured: true },
+      { name: "Soup (Jhol) Momo", description: "Served with our homemade jhol (soup).", price: 15.49, options: "Chicken / Vegetarian" },
+      { name: "Pan Fried Momo", description: "Crispy pan-fried momo with house-made sauce and chili dip.", price: 15.49, options: "Chicken / Vegetarian" },
+      { name: "Chilli Momo", description: "Chili-tossed momo with pepper, onion and tomato sauce.", price: 16.49, options: "Chicken / Vegetarian", tags: "spicy", spiceLevel: 2 },
     ],
   },
   {
     name: "Limited Selection",
     slug: "limited-selection",
-    tagline: "Buff (buffalo) specials, the Nepali way",
+    tagline: "Buff (water buffalo) specials, the Nepali way",
     items: [
-      {
-        name: "Buff Steam Momo",
-        description: "Steamed buff dumplings with classic Kathmandu seasoning.",
-        price: 14.99,
-      },
-      {
-        name: "Buff Soup (Jhol) Momo",
-        description: "Buff momo in a spiced jhol broth.",
-        price: 16.99,
-        tags: "spicy",
-      },
-      {
-        name: "Buff Chilli Momo",
-        description: "Buff momo tossed in a fiery chilli sauce.",
-        price: 16.49,
-        tags: "spicy",
-      },
-      {
-        name: "Buff Chowmein",
-        description: "Buff chowmein, Nepali street-style.",
-        price: 14.49,
-      },
+      { name: "Buff Steam Momo", description: "Seasoned water-buffalo dumplings with our homemade sauce and spicy chili dip.", price: 19.99 },
+      { name: "Buff Soup (Jhol) Momo", description: "Buff steamed momo in a spiced jhol broth.", price: 21.99 },
+      { name: "Buff Chilli Momo", description: "Buff momo tossed with pepper, onion and tomato chilli sauce.", price: 22.99, tags: "spicy", spiceLevel: 2 },
+      { name: "Buff Chowmein", description: "Prepared in Nepali style & flavor.", price: 16.49 },
     ],
   },
   {
@@ -99,112 +56,38 @@ const MENU: SeedCategory[] = [
     slug: "hakka-noodles",
     tagline: "Wok-tossed Indo-Chinese noodles",
     items: [
-      {
-        name: "Chicken Hakka Noodle",
-        description: "Springy noodles wok-tossed with chicken and crunchy veg.",
-        price: 15.49,
-      },
-      {
-        name: "Egg Hakka Noodle",
-        description: "Hakka noodles folded through wok-fried egg.",
-        price: 13.49,
-      },
-      {
-        name: "Veg Hakka Noodle",
-        description: "Garden vegetables tossed through Hakka noodles.",
-        price: 12.99,
-        tags: "vegetarian",
-      },
+      { name: "Chicken Hakka Noodle", description: "Onion, bell pepper, carrot, cabbage, Himalayan spices, chicken and sauce.", price: 15.49, tags: "spicy", spiceLevel: 2, featured: true },
+      { name: "Egg Hakka Noodle", description: "Onion, bell pepper, carrot, cabbage, Himalayan spices, egg and sauce.", price: 14.49, tags: "spicy", spiceLevel: 2 },
+      { name: "Veg. Hakka Noodles", description: "Onion, bell pepper, carrot, cabbage, Himalayan spices and sauce.", price: 13.49, tags: "vegetarian, spicy", spiceLevel: 2 },
     ],
   },
   {
-    name: "Chowmein",
+    name: "Chowmein (Nepali Style & Flavor)",
     slug: "chowmein",
     tagline: "Nepali-style stir-fried noodles",
     items: [
-      {
-        name: "Chicken Chowmein",
-        description: "Classic Nepali chowmein with tender chicken.",
-        price: 13.49,
-        tags: "popular",
-        featured: true,
-      },
-      {
-        name: "Buff Chowmein",
-        description: "Nepali chowmein with seasoned buff.",
-        price: 13.49,
-      },
-      {
-        name: "Egg Chowmein",
-        description: "Stir-fried noodles folded with egg.",
-        price: 12.49,
-      },
-      {
-        name: "Veg Chowmein",
-        description: "Veg chowmein with seasonal vegetables.",
-        price: 11.99,
-        tags: "vegetarian",
-      },
+      { name: "Chicken Chowmein", description: "Classic Nepali chowmein with tender chicken.", price: 15.49, tags: "spicy", spiceLevel: 2, featured: true },
+      { name: "Buff Chowmein", description: "Nepali chowmein with seasoned buff.", price: 16.49, tags: "spicy", spiceLevel: 2 },
+      { name: "Egg Chowmein", description: "Stir-fried noodles folded with egg.", price: 14.49, tags: "spicy", spiceLevel: 2 },
+      { name: "Veg Chowmein", description: "Chowmein with seasonal vegetables.", price: 13.49, tags: "vegetarian, spicy", spiceLevel: 2 },
     ],
   },
   {
     name: "Curry Comforts",
     slug: "curry-comforts",
-    tagline: "Slow-simmered curries with rice or naan",
+    tagline: "Served with a bowl of rice or naan bread",
     items: [
-      {
-        name: "Butter Chicken",
-        description:
-          "Tandoori chicken in a velvety tomato-butter gravy, served with basmati rice.",
-        price: 16.99,
-        tags: "popular",
-        featured: true,
-      },
-      {
-        name: "Paneer Butter Masala",
-        description: "Paneer in a rich, mildly spiced tomato-cream sauce.",
-        price: 15.99,
-        tags: "vegetarian",
-      },
-      {
-        name: "Chicken Curry (Nepali)",
-        description: "Home-style Nepali chicken curry with bold spices.",
-        price: 16.49,
-        tags: "spicy",
-      },
-      {
-        name: "Chana Masala",
-        description: "Chickpeas simmered in a tangy, fragrant masala.",
-        price: 14.49,
-        tags: "vegan, vegetarian",
-      },
+      { name: "Butter Chicken", description: "Tender chicken breast in a velvety, spiced butter sauce, served with a bowl of rice or naan bread.", price: 19.95, tags: "popular", featured: true },
+      { name: "Butter Paneer", description: "Creamy, rich tomato-based curry with soft paneer cubes, served with a bowl of rice or naan bread.", price: 19.95, tags: "vegetarian" },
     ],
   },
   {
     name: "Chilli Kicks",
     slug: "chilli-kicks",
-    tagline: "Fiery wok-fried favourites",
+    tagline: "Fiery wok-fried favourites with rice or naan",
     items: [
-      {
-        name: "Chicken Chilli",
-        description:
-          "Crispy chicken tossed with peppers, onion and a chilli-garlic sauce.",
-        price: 16.99,
-        tags: "spicy, popular",
-        featured: true,
-      },
-      {
-        name: "Paneer Chilli",
-        description: "Golden paneer in a glossy chilli glaze.",
-        price: 15.99,
-        tags: "spicy, vegetarian",
-      },
-      {
-        name: "Buff Chilli",
-        description: "Wok-fried buff in a spicy chilli sauce.",
-        price: 16.49,
-        tags: "spicy",
-      },
+      { name: "Chicken Chilli", description: "A spicy and savory chicken, served with a bowl of rice or naan bread.", price: 19.95, tags: "spicy", spiceLevel: 2, featured: true },
+      { name: "Paneer Chilli", description: "Cubes of paneer tossed in chilli sauce, served with a bowl of rice or naan bread.", price: 19.95, tags: "vegetarian, spicy", spiceLevel: 2 },
     ],
   },
   {
@@ -212,26 +95,9 @@ const MENU: SeedCategory[] = [
     slug: "salads",
     tagline: "Fresh, crisp and light",
     items: [
-      {
-        name: "Caesar Salad",
-        description:
-          "Romaine, parmesan and croutons in a creamy Caesar dressing.",
-        price: 10.99,
-        tags: "vegetarian",
-      },
-      {
-        name: "Green Salad",
-        description: "Garden greens with a house vinaigrette.",
-        price: 8.99,
-        tags: "vegan, vegetarian",
-      },
-      {
-        name: "Tabbouli",
-        description:
-          "Parsley, bulgur, tomato and mint with lemon and olive oil.",
-        price: 9.99,
-        tags: "vegan, vegetarian",
-      },
+      { name: "Ceaser Salad", description: "Add protein: Chicken / Beef for $3.49.", price: 8.99 },
+      { name: "Green Salad", description: "Add protein: Chicken / Beef for $3.49.", price: 6.99, tags: "vegetarian" },
+      { name: "Tabbouli", description: "Add protein: Chicken / Beef for $3.49.", price: 6.99, tags: "vegetarian" },
     ],
   },
   {
@@ -239,48 +105,19 @@ const MENU: SeedCategory[] = [
     slug: "combo-meals",
     tagline: "Best value, fully loaded",
     items: [
-      {
-        name: "15-Momo Combo",
-        description: "Fifteen momo with fries and a drink.",
-        priceLabel: "Chicken $19.99 / Veg $18.99",
-        options: "Chicken / Veg",
-      },
-      {
-        name: "10-Momo Combo",
-        description: "Ten momo with fries and a drink.",
-        priceLabel: "Chicken $16.99 / Veg $15.99",
-        options: "Chicken / Veg",
-      },
-      {
-        name: "Momo & Noodles",
-        description: "Momo paired with chowmein — the best of both.",
-        priceLabel: "Chicken $18.99 / Veg $17.99",
-        options: "Chicken / Veg",
-      },
-      {
-        name: "Shawarma Platter Combo",
-        description: "A shawarma platter with a drink.",
-        price: 17.49,
-        tags: "halal",
-      },
+      { name: "25 Momo Combo", description: "Mix of steam, pan-fried and chilli momo.", price: 37.5, options: "Chicken / Veg" },
+      { name: "15 Momo Combo", description: "Mix of steam and pan-fried momo.", price: 21.5, options: "Chicken / Veg" },
+      { name: "Momo & Noodles", description: "Combo of 10 pcs momo and Hakka noodles.", price: 24.5, options: "Chicken / Veg" },
+      { name: "Shawarma Platter for 5 Persons", description: "Protein options: Chicken, Beef, Mix, Donair or Falafel.", price: 74.5, options: "Chicken / Beef / Mix / Donair / Falafel", tags: "halal" },
     ],
   },
   {
     name: "Burgers",
     slug: "burgers",
-    tagline: "Stacked and served with seasoned fries",
+    tagline: "Stacked and served with fries",
     items: [
-      {
-        name: "Grilled Chicken Burger",
-        description:
-          "Grilled chicken, lettuce, tomato and house sauce, with fries.",
-        price: 13.99,
-      },
-      {
-        name: "Beef Burger",
-        description: "Seasoned beef patty with all the fixings, with fries.",
-        price: 13.99,
-      },
+      { name: "8848 Chicken Burger", description: "Served with fries.", price: 16.5 },
+      { name: "Beef Burger", description: "Served with fries.", price: 17.5 },
     ],
   },
   {
@@ -288,18 +125,8 @@ const MENU: SeedCategory[] = [
     slug: "wings-strips",
     tagline: "Crispy, saucy, shareable",
     items: [
-      {
-        name: "Chicken Wings (10 pcs)",
-        description: "Ten wings tossed in your choice of sauce.",
-        price: 13.49,
-        options: "Mild / Hot / BBQ",
-        tags: "spicy",
-      },
-      {
-        name: "Chicken Strips (6 pcs)",
-        description: "Six breaded strips with fries and dip.",
-        price: 12.49,
-      },
+      { name: "10 Pcs Chicken Wings", description: "Flavours: Hot, BBQ, Honey Garlic, Sweet Thai Chilli.", price: 14.49, options: "Hot / BBQ / Honey Garlic / Sweet Thai Chilli", tags: "spicy", spiceLevel: 2 },
+      { name: "Chicken Strips (6 Pcs)", description: "Served with fries.", price: 14.49 },
     ],
   },
   {
@@ -307,158 +134,62 @@ const MENU: SeedCategory[] = [
     slug: "poutine-fries",
     tagline: "Canadian comfort, Namche style",
     items: [
-      {
-        name: "Namche Poutine",
-        description: "Crispy fries, cheese curds and rich gravy.",
-        priceLabel: "Small $11.49 / Large $15.49",
-        tags: "popular",
-        featured: true,
-      },
-      {
-        name: "Chicken Poutine",
-        description: "Poutine loaded with seasoned chicken.",
-        priceLabel: "Small $13.49 / Large $16.49",
-      },
-      {
-        name: "Beef Poutine",
-        description: "Poutine piled with seasoned beef.",
-        priceLabel: "Small $13.49 / Large $16.49",
-      },
-      {
-        name: "Fries",
-        description: "Golden, seasoned fries.",
-        price: 6.49,
-        tags: "vegetarian",
-      },
+      { name: "Namche Poutine", description: "Crispy french fries, gravy and Montreal cheese curd.", priceLabel: "Small $11.49 / Large $13.49", tags: "popular", featured: true },
+      { name: "Chicken Poutine", description: "Crispy fries, gravy, chicken and Montreal cheese curd.", priceLabel: "Small $14.49 / Large $16.49" },
+      { name: "Beef Poutine", description: "Crispy fries, gravy, beef and Montreal cheese curd.", priceLabel: "Small $14.49 / Large $16.49" },
+      { name: "Fries", description: "Small portion of fries with ketchup.", price: 5.49, tags: "vegetarian" },
     ],
   },
   {
-    name: "Shawarma Sandwiches",
+    name: "Shawarma — Sandwiches",
     slug: "shawarma-sandwiches",
-    tagline: "Wrapped fresh — always Halal",
+    tagline: "Wrapped fresh — always halal",
     items: [
-      {
-        name: "Chicken Shawarma",
-        description:
-          "Marinated chicken, garlic sauce, pickles and veg in a warm wrap.",
-        priceLabel: "Small $8.99 / Large $11.99",
-        options: "Small / Large",
-        tags: "halal",
-      },
-      {
-        name: "Beef Shawarma",
-        description: "Spiced beef shawarma with tahini and veg.",
-        priceLabel: "Small $10.99 / Large $12.99",
-        options: "Small / Large",
-        tags: "halal",
-      },
-      {
-        name: "Donair",
-        description: "Sweet donair sauce, tomato and onion in a soft wrap.",
-        priceLabel: "Small $8.99 / Large $11.99",
-        options: "Small / Large",
-        tags: "halal",
-      },
-      {
-        name: "Falafel Wrap",
-        description: "Crispy falafel, hummus and fresh salad.",
-        priceLabel: "Small $8.99 / Large $10.99",
-        options: "Small / Large",
-        tags: "halal, vegan, vegetarian",
-      },
+      { name: "Chicken Shawarma", description: "Protein options: Chicken, Beef, Mix, Donair or Falafel.", priceLabel: "Small $9.99 / Large $13.99", options: "Chicken / Beef / Mix / Donair / Falafel", tags: "halal" },
+      { name: "Beef / Mix Shawarma", description: "Protein options: Chicken, Beef, Mix, Donair or Falafel.", priceLabel: "Small $10.49 / Large $14.49", options: "Chicken / Beef / Mix / Donair / Falafel", tags: "halal" },
+      { name: "Donair", description: "Protein options: Chicken, Beef, Mix, Donair or Falafel.", priceLabel: "Small $8.99 / Large $13.99", options: "Chicken / Beef / Mix / Donair / Falafel", tags: "halal" },
+      { name: "Falafel", description: "Crispy chickpea falafel wrap.", priceLabel: "Small $8.99 / Large $13.99", tags: "halal, vegetarian, vegan" },
     ],
   },
   {
-    name: "Shawarma Platters",
+    name: "Shawarma — Combo",
+    slug: "shawarma-combo",
+    tagline: "Trios with sides",
+    items: [
+      { name: "Small Trio", priceLabel: "Chicken $15.49 / Beef-Mix $16.49", options: "Chicken / Beef-Mix", tags: "halal" },
+      { name: "Large Trio", priceLabel: "Chicken $18.99 / Beef-Mix $19.99", options: "Chicken / Beef-Mix", tags: "halal" },
+    ],
+  },
+  {
+    name: "Shawarma — Platters",
     slug: "shawarma-platters",
-    tagline: "Served with rice, salad and sauces",
+    tagline: "Served as a platter or a bowl",
     items: [
-      {
-        name: "Chicken Shawarma Platter",
-        description:
-          "Chicken shawarma over rice with salad, garlic sauce and pita.",
-        price: 21.99,
-        tags: "halal",
-        featured: true,
-      },
-      {
-        name: "Beef Shawarma Platter",
-        description: "Beef shawarma platter with all the trimmings.",
-        price: 23.99,
-        tags: "halal",
-      },
-      {
-        name: "Mixed Shawarma Platter",
-        description: "Chicken and beef shawarma over rice.",
-        price: 24.99,
-        tags: "halal",
-      },
-      {
-        name: "Falafel Platter",
-        description: "Falafel platter with hummus, salad and rice.",
-        price: 19.99,
-        tags: "halal, vegan, vegetarian",
-      },
+      { name: "Chicken Shawarma", priceLabel: "Platter $21.99 / Bowl $17.99", tags: "halal", featured: true },
+      { name: "Beef Shawarma", priceLabel: "Platter $22.49 / Bowl $18.49", tags: "halal" },
+      { name: "Mixed Shawarma", priceLabel: "Platter $22.49 / Bowl $18.49", tags: "halal" },
+      { name: "Falafel", priceLabel: "Platter $19.99", tags: "halal, vegetarian, vegan" },
     ],
   },
   {
-    name: "Family Platters",
-    slug: "family-platters",
+    name: "Shawarma — Family Platters",
+    slug: "shawarma-family-platters",
     tagline: "Feasts to share",
     items: [
-      {
-        name: "Family Platter for 3",
-        description:
-          "A shawarma feast for three with rice, salad, pita and sauces.",
-        priceLabel: "Chicken $54.99 / Beef $59.99",
-        options: "Chicken / Beef",
-        tags: "halal",
-      },
-      {
-        name: "Family Platter for 5",
-        description: "A generous spread for five.",
-        priceLabel: "Chicken $79.99 / Beef $89.99",
-        options: "Chicken / Beef",
-        tags: "halal",
-      },
-      {
-        name: "Half Family Platter",
-        description: "A lighter share platter.",
-        priceLabel: "Chicken $42.99 / Beef $46.99",
-        options: "Chicken / Beef",
-        tags: "halal",
-      },
+      { name: "Family Platter for 5", priceLabel: "Chicken $69.99 / Beef-Mix $74.99", options: "Chicken / Beef-Mix", tags: "halal" },
+      { name: "Family Platter for 8", priceLabel: "Chicken $95.99 / Beef-Mix $99.99", options: "Chicken / Beef-Mix", tags: "halal" },
+      { name: "Half Family Plate", priceLabel: "Chicken $42.99 / Beef-Mix $44.99", options: "Chicken / Beef-Mix", tags: "halal" },
     ],
   },
   {
-    name: "Sides",
-    slug: "sides",
+    name: "Shawarma — Sides",
+    slug: "shawarma-sides",
     tagline: "Little extras",
     items: [
-      {
-        name: "Garlic Paneer",
-        description: "Pan-fried paneer in garlic butter.",
-        price: 9.49,
-        tags: "vegetarian",
-      },
-      {
-        name: "Samosa (2 pcs)",
-        description: "Crisp pastry with spiced potato and peas.",
-        price: 4.99,
-        tags: "vegan, vegetarian",
-      },
-      {
-        name: "Onion Rings",
-        description: "Golden battered onion rings.",
-        price: 6.99,
-        tags: "vegetarian",
-      },
-      {
-        name: "Falafel (5 pcs)",
-        description: "Crispy chickpea falafel with tahini.",
-        price: 5.99,
-        tags: "halal, vegan, vegetarian",
-      },
+      { name: "Garlic Potatoes", price: 6.49, tags: "vegetarian" },
+      { name: "Turnips", priceLabel: "Small $6.00", tags: "vegetarian" },
+      { name: "Grape Leaves (6 Pieces)", priceLabel: "Small $5.99", tags: "halal" },
+      { name: "Falafel (1 Piece)", priceLabel: "Small $2.00", tags: "halal, vegetarian, vegan" },
     ],
   },
   {
@@ -466,39 +197,12 @@ const MENU: SeedCategory[] = [
     slug: "drinks",
     tagline: "Brewed and poured",
     items: [
-      {
-        name: "Milk Masala Tea",
-        description: "Spiced Himalayan milk tea.",
-        price: 3.49,
-        tags: "vegetarian",
-      },
-      {
-        name: "Black Masala Tea",
-        description: "Spiced black tea.",
-        price: 2.99,
-        tags: "vegan, vegetarian",
-      },
-      {
-        name: "Seasonal Juice",
-        description: "Ask your server for today's juice.",
-        price: 4.49,
-      },
-      {
-        name: "Vegan Drink",
-        description: "A plant-based refresher.",
-        price: 4.49,
-        tags: "vegan",
-      },
-      {
-        name: "Canned Pop",
-        description: "Coke, Diet Coke, Sprite or Fanta.",
-        price: 2.49,
-      },
-      {
-        name: "Bottled Water",
-        description: "Still spring water.",
-        price: 1.99,
-      },
+      { name: "Milk Masala Tea", description: "A spiced milk tea infused with warming Himalayan aromatics.", price: 3.49 },
+      { name: "Black Masala Tea", description: "A spiced black tea infused with warming Himalayan aromatics.", price: 2.49 },
+      { name: "Nectar Juice", price: 4.49 },
+      { name: "Yogurt Drink", price: 4.49 },
+      { name: "Can Drink", price: 2.49 },
+      { name: "Water", price: 2.49 },
     ],
   },
 ];
@@ -506,7 +210,7 @@ const MENU: SeedCategory[] = [
 async function main() {
   console.log("🌱 Seeding Namche Kitchen…");
 
-  // Reset menu (keeps reservations/catering intact)
+  // Reset menu (keeps reservations / catering / subscribers intact)
   await prisma.menuItem.deleteMany();
   await prisma.category.deleteMany();
 
@@ -525,6 +229,7 @@ async function main() {
             priceLabel: item.priceLabel ?? null,
             options: item.options ?? null,
             tags: item.tags ?? null,
+            spiceLevel: item.spiceLevel ?? 0,
             featured: item.featured ?? false,
             available: true,
             sortOrder: ii,

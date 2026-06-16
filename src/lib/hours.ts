@@ -46,13 +46,21 @@ export function getWeeklyHours(): DayRange[] {
   const week: DayRange[] = [null, null, null, null, null, null, null];
 
   for (const row of SITE.hours) {
-    const [startDay, endDay] = splitRange(row.days);
     const [openLabel, closeLabel] = splitRange(row.time);
     const open = parseClock(openLabel);
     const close = parseClock(closeLabel);
+    if (open === null || close === null) continue;
+
+    // "Every day" / "Daily" / "All week" → open all seven days.
+    if (/every\s*day|daily|all\s*week|everyday/i.test(row.days)) {
+      for (let d = 0; d < 7; d++) week[d] = { open, close };
+      continue;
+    }
+
+    const [startDay, endDay] = splitRange(row.days);
     const from = dayToIndex(startDay);
     const to = dayToIndex(endDay);
-    if (open === null || close === null || from === null || to === null) continue;
+    if (from === null || to === null) continue;
 
     // Walk forward from `from` to `to`, wrapping across the week if needed.
     let d = from;

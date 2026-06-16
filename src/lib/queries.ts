@@ -54,26 +54,26 @@ function mkCategory(
 }
 
 const FALLBACK_MENU: CategoryWithItemsT[] = [
-  mkCategory(0, "Momo", "momo", "Hand-folded Himalayan dumplings", [
-    { name: "Steam Momo", description: "Ten steamed dumplings with house achar.", price: 13.99, options: "Chicken / Veg", tags: "popular", featured: true },
-    { name: "Veg Momo", description: "Garden-vegetable dumplings, steamed to order.", price: 12.99, tags: "vegetarian" },
-    { name: "Chilli Momo", description: "Wok-tossed in a sweet-and-spicy chilli glaze.", price: 15.49, tags: "spicy", spiceLevel: 2 },
+  mkCategory(0, "Momo (10 Pcs)", "momo", "Hand-folded Himalayan dumplings", [
+    { name: "Steam Momo", description: "Seasoned chicken with our homemade sauce and spicy chili dip.", price: 14.99, options: "Chicken / Vegetarian", tags: "popular", featured: true },
+    { name: "Pan Fried Momo", description: "Crispy pan-fried momo with house-made sauce and chili dip.", price: 15.49, options: "Chicken / Vegetarian" },
+    { name: "Chilli Momo", description: "Chili-tossed momo with pepper, onion and tomato sauce.", price: 16.49, tags: "spicy", spiceLevel: 2 },
   ]),
-  mkCategory(1, "Chowmein", "chowmein", "Wok-tossed noodles", [
-    { name: "Chicken Chowmein", description: "Classic Nepali-style stir-fried noodles.", price: 13.49, tags: "popular", featured: true },
-    { name: "Veg Chowmein", description: "Seasonal vegetables tossed through noodles.", price: 11.99, tags: "vegetarian" },
+  mkCategory(1, "Chowmein", "chowmein", "Nepali-style stir-fried noodles", [
+    { name: "Chicken Chowmein", description: "Classic Nepali chowmein with tender chicken.", price: 15.49, tags: "spicy", spiceLevel: 2, featured: true },
+    { name: "Veg Chowmein", description: "Chowmein with seasonal vegetables.", price: 13.49, tags: "vegetarian, spicy", spiceLevel: 2 },
   ]),
-  mkCategory(2, "Curry Comforts", "curry", "Slow-simmered curries with rice or naan", [
-    { name: "Butter Chicken", description: "Tandoori chicken in a velvety tomato-butter gravy.", price: 16.99, tags: "popular", featured: true },
-    { name: "Chana Masala", description: "Chickpeas in a tangy, fragrant masala.", price: 14.49, tags: "vegan, vegetarian" },
+  mkCategory(2, "Curry Comforts", "curry-comforts", "Served with rice or naan", [
+    { name: "Butter Chicken", description: "Tender chicken in a velvety, spiced butter sauce.", price: 19.95, tags: "popular", featured: true },
+    { name: "Butter Paneer", description: "Creamy tomato-based curry with soft paneer.", price: 19.95, tags: "vegetarian" },
   ]),
-  mkCategory(3, "Shawarma", "shawarma", "Wrapped fresh — always halal", [
-    { name: "Chicken Shawarma", description: "Marinated chicken, garlic sauce, pickles in a warm wrap.", priceLabel: "Small $8.99 / Large $11.99", tags: "halal", featured: true },
-    { name: "Falafel Wrap", description: "Crispy falafel, hummus and fresh salad.", priceLabel: "Small $8.99 / Large $10.99", tags: "halal, vegan, vegetarian" },
+  mkCategory(3, "Shawarma", "shawarma-sandwiches", "Wrapped fresh — always halal", [
+    { name: "Chicken Shawarma", description: "Chicken, garlic sauce, pickles and veg in a warm wrap.", priceLabel: "Small $9.99 / Large $13.99", tags: "halal", featured: true },
+    { name: "Falafel", description: "Crispy chickpea falafel wrap.", priceLabel: "Small $8.99 / Large $13.99", tags: "halal, vegan, vegetarian" },
   ]),
-  mkCategory(4, "Drinks", "drinks", "Brewed and poured", [
-    { name: "Masala Tea", description: "Spiced Himalayan milk tea.", price: 3.49, tags: "vegetarian" },
-    { name: "Canned Pop", description: "Coke, Diet Coke, Sprite or Fanta.", price: 2.49 },
+  mkCategory(4, "Masala Tea & Drinks", "drinks", "Brewed and poured", [
+    { name: "Milk Masala Tea", description: "Spiced Himalayan milk tea.", price: 3.49 },
+    { name: "Can Drink", description: "Assorted canned soft drinks.", price: 2.49 },
   ]),
 ];
 
