@@ -1,0 +1,196 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ */
+/*  Namche Kitchen — Modern Minimal Design Tokens                       */
+/*  Primary: warm cream.  Secondary: forest green.  Accent: muted gold. */
+/* ------------------------------------------------------------------ */
+@theme {
+  /* Cream / paper — reduced range */
+  --color-cream-50: #fdfcfa;
+  --color-cream-100: #f8f5ef;
+  --color-cream-200: #f0ebe0;
+  --color-cream-300: #e5ddd0;
+
+  /* Forest green — reduced range */
+  --color-forest-50: #f1f5f2;
+  --color-forest-100: #dde8e1;
+  --color-forest-200: #b8d0c1;
+  --color-forest-300: #8ab39a;
+  --color-forest-400: #558b6b;
+  --color-forest-500: #3a6b50;
+  --color-forest-600: #2d5440;
+  --color-forest-700: #234231;
+  --color-forest-800: #1a3326;
+  --color-forest-900: #0f1e17;
+
+  /* Cream — extended for borders / dividers referenced across the app */
+  --color-cream-400: #d8cebd;
+  --color-cream-500: #c7b9a3;
+
+  /* Forest — deepest shade used for overlays + body text */
+  --color-forest-950: #081410;
+
+  /* Muted gold — reduced range */
+  --color-gold-300: #e8d9a0;
+  --color-gold-400: #d4c070;
+  --color-gold-500: #b8a050;
+  --color-gold-600: #978240;
+  --color-gold-700: #7a6735;
+
+  /* Spice — warm terracotta/chilli accent (dietary "spicy", errors, alerts) */
+  --color-spice-300: #eeb892;
+  --color-spice-400: #e28d5e;
+  --color-spice-500: #d2693c;
+  --color-spice-600: #b04e29;
+
+  /* Fonts */
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  /* Motion */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-400: 400ms;
+
+  /* shadcn semantic tokens */
+  --color-background: var(--color-cream-50);
+  --color-foreground: var(--color-forest-900);
+  --color-muted: var(--color-forest-50);
+  --color-muted-foreground: var(--color-forest-500);
+  --color-border: var(--color-cream-200);
+  --color-ring: var(--color-forest-300);
+  --color-primary: var(--color-forest-800);
+  --color-primary-foreground: var(--color-cream-50);
+  --color-secondary: var(--color-forest-50);
+  --color-secondary-foreground: var(--color-forest-800);
+  --color-accent: var(--color-forest-50);
+  --color-accent-foreground: var(--color-forest-800);
+  --color-destructive: #b42318;
+  --color-destructive-foreground: var(--color-cream-50);
+  --color-card: var(--color-cream-50);
+  --color-card-foreground: var(--color-forest-900);
+  --color-popover: var(--color-cream-50);
+  --color-popover-foreground: var(--color-forest-900);
+  --color-input: var(--color-cream-200);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Base                                                               */
+/* ------------------------------------------------------------------ */
+:root {
+  --background: var(--color-cream-50);
+  --foreground: var(--color-forest-900);
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background-color: var(--color-forest-700);
+  color: var(--color-cream-50);
+}
+
+/* Display headings default to the serif */
+h1, h2, h3, h4, .font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+/* Minimal scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-forest-200);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-forest-400);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Utilities                                                          */
+/* ------------------------------------------------------------------ */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  .shadow-subtle {
+    box-shadow: 0 1px 3px rgba(15, 30, 23, 0.06),
+      0 4px 12px -4px rgba(15, 30, 23, 0.10);
+  }
+
+  @keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .animate-spin-slow {
+    animation: spin-slow 24s linear infinite;
+  }
+
+  /* ---- Food-doodle ambient motion -------------------------------- */
+  @keyframes doodle-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  @keyframes doodle-sway {
+    0%, 100% { transform: rotate(-5deg); }
+    50% { transform: rotate(5deg); }
+  }
+  @keyframes doodle-drift {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    33% { transform: translate(7px, -8px) rotate(3deg); }
+    66% { transform: translate(-6px, 5px) rotate(-3deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
+  }
+  .animate-doodle-float { animation: doodle-float 7s var(--ease-out-soft) infinite; }
+  .animate-doodle-float-slow { animation: doodle-float 11s var(--ease-out-soft) infinite; }
+  .animate-doodle-sway { animation: doodle-sway 9s ease-in-out infinite; transform-origin: bottom center; }
+  .animate-doodle-drift { animation: doodle-drift 18s ease-in-out infinite; }
+
+  /* Subtle paper grain for richer cream surfaces (referenced as bg-grain). */
+  .bg-grain {
+    background-image: radial-gradient(circle at 1px 1px,
+      rgba(15, 30, 23, 0.045) 1px, transparent 0);
+    background-size: 22px 22px;
+  }
+
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

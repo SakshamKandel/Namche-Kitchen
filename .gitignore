@@ -1,0 +1,46 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+
+# next.js
+/.next/
+/.next-dev/
+/out/
+next-env.d.ts
+
+# production
+/build
+
+# database
+prisma/dev.db
+prisma/dev.db-journal
+*.db
+*.db-journal
+
+# uploads (user-generated)
+/public/uploads/*
+!/public/uploads/.gitkeep
+
+# reference material (real-site PDF captures — not part of the app)
+/public/PDFS/
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files
+.env
+.env*.local
+
+# typescript
+*.tsbuildinfo
+
+# bun
+bun.lockb

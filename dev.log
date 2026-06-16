@@ -1,0 +1,47 @@
+
+> namche-kitchen@0.1.0 dev
+> next dev -p 3100
+
+   ▲ Next.js 15.5.19
+   - Local:        http://localhost:3100
+   - Network:      http://100.75.106.92:3100
+   - Environments: .env
+   - Experiments (use with caution):
+     · serverActions
+
+ ✓ Starting...
+ ✓ Ready in 1836ms
+ ○ Compiling / ...
+ ✓ Compiled / in 2.9s (1647 modules)
+ GET / 200 in 4128ms
+ ○ Compiling /about ...
+ ✓ Compiled /about in 823ms (1663 modules)
+ GET /about 200 in 1776ms
+ ○ Compiling /menu ...
+ ✓ Compiled /menu in 647ms (1672 modules)
+ GET /menu 200 in 1502ms
+ ✓ Compiled /reservations in 386ms (1688 modules)
+ GET /reservations 200 in 1027ms
+ ✓ Compiled /catering in 435ms (1698 modules)
+ GET /catering 200 in 1054ms
+   Reload env: .env.local
+ ✓ Compiled in 499ms (1698 modules)
+ GET /about 200 in 919ms
+ GET /menu 200 in 514ms
+ GET /about 200 in 558ms
+ GET /menu 200 in 803ms
+ GET /about 200 in 608ms
+ GET /menu 200 in 928ms
+ GET /menu 200 in 1077ms
+ GET /about 200 in 621ms
+ GET /menu 200 in 881ms
+ GET /about 200 in 1304ms
+ GET /menu 200 in 2293ms
+ GET /about 200 in 1054ms
+ GET /menu 200 in 1456ms
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 678ms (1702 modules)
+ GET /about 404 in 1337ms
+ GET /menu 200 in 1174ms
+ GET /about 200 in 768ms
+ GET /menu 200 in 1349ms
