@@ -37,22 +37,22 @@ function MenuLine({ item }: { item: CategoryWithItems["items"][number] }) {
 
   return (
     <li className="py-3 first:pt-0">
-      <div className="flex items-baseline gap-1">
+      <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
         <span className="font-display text-lg font-medium text-forest-900">
           {item.name}
         </span>
         <span
           aria-hidden
-          className="mx-3 flex-1 translate-y-[-0.2em] border-b border-dotted border-sand-400/70"
+          className="mx-3 hidden flex-1 translate-y-[-0.2em] border-b border-dotted border-sand-400/70 sm:block"
         />
         {price && (
-          <span className="shrink-0 font-display text-base tabular-nums text-clay-600">
+          <span className="ml-auto shrink-0 font-display text-base tabular-nums text-clay-600 sm:ml-0">
             {price}
           </span>
         )}
       </div>
       {item.description && (
-        <p className="mt-1 max-w-prose text-sm leading-relaxed text-forest-600">
+        <p className="mt-1 text-sm leading-relaxed text-forest-600">
           {item.description}
         </p>
       )}
@@ -95,7 +95,7 @@ export async function MenuPreview() {
           </p>
         </Reveal>
 
-        <div className="mt-14 grid gap-8 md:grid-cols-2">
+        <div className="mt-14 grid grid-cols-1 gap-8 md:grid-cols-2">
           {picked.map((category, i) => {
             const thumb = category.items.find((it) => it.imageUrl)?.imageUrl;
             return (
