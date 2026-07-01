@@ -10,20 +10,14 @@ type Tile = { src: string; alt: string };
  */
 export function HeroCollage({ className }: { className?: string }) {
   const tiles: Tile[] = [
-    { src: "/menu/platter.jpg", alt: "A generous shared platter of Himalayan dishes" },
-    { src: "/menu/curry.jpg", alt: "A rich, aromatic curry" },
-    { src: "/menu/shawarma.jpg", alt: "Halal shawarma, freshly carved" },
-    { src: "/menu/momo.webp", alt: "Hand-pleated steamed momo" },
+    { src: "/menu/shawarma-platter.jpg", alt: "A generous shared platter of Himalayan dishes" },
+    { src: "/menu/butter-chicken.jpg", alt: "A rich, aromatic butter chicken curry" },
+    { src: "/menu/momo-steam.jpg", alt: "Hand-pleated steamed momo with achar" },
+    { src: "/menu/feast.jpg", alt: "A shared table spread for a gathering" },
   ];
 
   return (
     <div className={cn("relative mx-auto w-full max-w-lg", className)}>
-      {/* Ambient glow behind the mosaic */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -inset-6 -z-10 rounded-[2.5rem] bg-gold-400/10 blur-2xl"
-      />
-
       <div className="grid grid-cols-2 gap-3 sm:gap-4">
         {/* Large tile spanning two rows on the left */}
         <div className="relative row-span-2 aspect-[3/4] overflow-hidden rounded-3xl shadow-xl shadow-forest-950/30 ring-1 ring-cream-50/10 sm:mt-8">

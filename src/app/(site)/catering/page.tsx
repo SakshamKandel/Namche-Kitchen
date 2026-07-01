@@ -14,7 +14,7 @@ import { TastingBoard } from "@/components/catering/TastingBoard";
 
 export const metadata: Metadata = {
   title: `Catering — ${SITE.name}`,
-  description: `Namche Kitchen catering for birthdays, corporate lunches, weddings and festivals in Calgary. Authentic Himalayan and Halal Middle-Eastern food for groups of 10 to 500+.`,
+  description: `Namche Kitchen catering for birthdays, corporate lunches, weddings and festivals in Ottawa. Authentic Himalayan and Halal Middle-Eastern food for groups of 10 to 500+.`,
 };
 
 const STEPS: { title: string; body: string }[] = [
@@ -72,30 +72,34 @@ const FAQS: { q: string; a: string }[] = [
     a: "Absolutely. Our entire kitchen is 100% Halal, and we offer vegetarian, vegan and customisable spreads. Just let us know in your enquiry and we'll tailor the menu.",
   },
   {
-    q: "Do you deliver across Calgary?",
-    a: "Yes — we deliver and set up across the Calgary area. Delivery details and any travel costs are confirmed in your custom proposal.",
+    q: "Do you deliver across Ottawa?",
+    a: "Yes — we deliver and set up across the Ottawa area. Delivery details and any travel costs are confirmed in your custom proposal.",
   },
 ];
+
+/** Small warm eyebrow for light surfaces — terracotta, wide-tracked. */
+function ClayEyebrow({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="text-xs font-semibold uppercase tracking-[0.25em] text-clay-500">
+      {children}
+    </span>
+  );
+}
 
 export default function CateringPage() {
   return (
     <>
-      {/* ── 1. Hero ── */}
-      <section className="relative isolate overflow-hidden bg-forest-800">
+      {/* ── 1. Hero — one cinematic dark band ── */}
+      <section className="relative isolate overflow-hidden bg-forest-950 bg-grain">
         <DoodleScatter preset="band" />
-        {/* Ambient warmth */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -right-32 -top-24 h-[460px] w-[460px] rounded-full bg-gold-400/10 blur-3xl"
-        />
         <Container
           size="wide"
-          className="grid items-center gap-12 py-20 lg:grid-cols-2 lg:gap-16 lg:py-28"
+          className="grid items-center gap-12 py-14 sm:py-20 lg:grid-cols-2 lg:gap-16 lg:py-28"
         >
           {/* LEFT — copy */}
           <div className="flex flex-col items-start gap-6">
             <Reveal>
-              <span className="text-xs font-medium uppercase tracking-[0.2em] text-gold-400">
+              <span className="text-xs font-medium uppercase tracking-[0.25em] text-gold-400">
                 Catering
               </span>
             </Reveal>
@@ -112,7 +116,7 @@ export default function CateringPage() {
               <p className="max-w-md text-pretty text-lg leading-relaxed text-cream-200/80">
                 From intimate birthday lunches to large wedding receptions, we
                 bring the warmth of Namche Kitchen — fresh momo, aromatic
-                curries and Halal favourites — to your celebration.
+                curries and Halal favourites — to your celebration in Ottawa.
               </p>
             </Reveal>
 
@@ -147,26 +151,27 @@ export default function CateringPage() {
         </Container>
       </section>
 
-      {/* ── 2. How it works ── */}
-      <section className="relative isolate py-20 sm:py-28">
+      {/* ── 2. How it works — warm paper ── */}
+      <section className="relative isolate bg-cream-50 bg-paper py-16 sm:py-28">
         <DoodleScatter preset="soft" />
         <Container>
           <Reveal>
-            <SectionHeading
-              eyebrow="How it works"
-              title="Catering made effortless"
-              description="Three simple steps from first enquiry to a table full of food your guests will remember."
-              align="center"
-              className="mb-14"
-            />
+            <div className="mb-10 flex flex-col items-center gap-3 text-center sm:mb-14">
+              <ClayEyebrow>How it works</ClayEyebrow>
+              <SectionHeading
+                title="Catering made effortless"
+                description="Three simple steps from first enquiry to a table full of food your guests will remember."
+                align="center"
+              />
+            </div>
           </Reveal>
 
-          <ol className="grid gap-8 sm:grid-cols-3 sm:gap-6">
+          <ol className="grid gap-6 sm:grid-cols-3">
             {STEPS.map((step, i) => (
               <Reveal as="li" key={step.title} delay={i * 0.08}>
-                <div className="flex h-full flex-col gap-4">
+                <div className="flex h-full flex-col gap-4 rounded-2xl border border-sand-300 bg-cream-50 p-7 shadow-warm transition-transform duration-300 hover:-translate-y-1">
                   <span
-                    className="font-display text-5xl font-semibold leading-none text-gold-400"
+                    className="font-display text-5xl font-semibold leading-none text-clay-500"
                     aria-hidden="true"
                   >
                     {String(i + 1).padStart(2, "0")}
@@ -184,26 +189,27 @@ export default function CateringPage() {
         </Container>
       </section>
 
-      {/* ── 3. What we cater ── */}
-      <section className="relative isolate bg-cream-100/50 py-20 sm:py-28">
+      {/* ── 3. What we cater — warm sand weave ── */}
+      <section className="relative isolate bg-sand-100 bg-weave py-16 sm:py-28">
         <DoodleScatter preset="soft" />
         <Container>
           <Reveal>
-            <SectionHeading
-              eyebrow="What we cater"
-              title="A spread for every gathering"
-              description="Whether you need a quick weekday lunch or a full banquet, our kitchen adapts to your event and dietary needs."
-              align="center"
-              className="mb-14"
-            />
+            <div className="mb-10 flex flex-col items-center gap-3 text-center sm:mb-14">
+              <ClayEyebrow>What we cater</ClayEyebrow>
+              <SectionHeading
+                title="A spread for every gathering"
+                description="Whether you need a quick weekday lunch or a full banquet, our kitchen adapts to your event and dietary needs."
+                align="center"
+              />
+            </div>
           </Reveal>
 
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {OFFERINGS.map((offering, i) => (
               <Reveal key={offering.title} delay={i * 0.07}>
-                <article className="group flex h-full flex-col gap-4 rounded-2xl border border-cream-200 bg-white p-6 shadow-subtle transition-all duration-300 hover:-translate-y-1 hover:border-forest-200">
+                <article className="group flex h-full flex-col gap-4 rounded-2xl border border-sand-300 bg-cream-50 p-6 shadow-warm transition-transform duration-300 hover:-translate-y-1">
                   <span
-                    className="flex h-12 w-12 items-center justify-center rounded-2xl bg-forest-50 text-forest-600 transition-colors duration-300 group-hover:bg-forest-800 group-hover:text-cream-50"
+                    className="flex h-12 w-12 items-center justify-center rounded-2xl bg-clay-500/10 text-clay-500 transition-colors duration-300 group-hover:bg-clay-500 group-hover:text-cream-50"
                     aria-hidden="true"
                   >
                     <Doodle name={offering.doodle} className="h-7 w-7" />
@@ -221,17 +227,18 @@ export default function CateringPage() {
         </Container>
       </section>
 
-      {/* ── 4. From our kitchen — tasting board ── */}
-      <section className="py-20 sm:py-28">
+      {/* ── 4. From our kitchen — tasting board (warm cream) ── */}
+      <section className="bg-cream-100 py-16 sm:py-28">
         <Container size="wide">
           <Reveal>
-            <SectionHeading
-              eyebrow="From our kitchen"
-              title="A taste of the table"
-              description="A glimpse of the dishes we love to serve — every tray made fresh, the morning of your event."
-              align="center"
-              className="mb-14"
-            />
+            <div className="mb-10 flex flex-col items-center gap-3 text-center sm:mb-14">
+              <ClayEyebrow>From our kitchen</ClayEyebrow>
+              <SectionHeading
+                title="A taste of the table"
+                description="A glimpse of the dishes we love to serve — every tray made fresh, the morning of your event."
+                align="center"
+              />
+            </div>
           </Reveal>
           <Reveal delay={0.08}>
             <TastingBoard />
@@ -239,8 +246,8 @@ export default function CateringPage() {
         </Container>
       </section>
 
-      {/* ── 5. Trust / stats band ── */}
-      <section className="relative isolate overflow-hidden bg-forest-800 py-16 sm:py-20">
+      {/* ── 5. Trust / stats band — the one dark contrast band ── */}
+      <section className="relative isolate overflow-hidden bg-forest-950 bg-grain py-16 sm:py-20">
         <DoodleScatter preset="band" />
         <Container>
           <Reveal>
@@ -248,7 +255,7 @@ export default function CateringPage() {
               &ldquo;Every event is a chance to share the flavours of the
               Himalayas — made fresh, made with care.&rdquo;
             </p>
-            <p className="mt-3 text-center text-xs font-medium uppercase tracking-widest text-gold-400">
+            <p className="mt-3 text-center text-xs font-medium uppercase tracking-[0.25em] text-gold-400">
               — Namche Kitchen
             </p>
           </Reveal>
@@ -258,7 +265,7 @@ export default function CateringPage() {
               {STATS.map((stat) => (
                 <div
                   key={stat.label}
-                  className="flex flex-col items-center gap-1 bg-forest-800 px-4 py-7 text-center"
+                  className="flex flex-col items-center gap-1 bg-forest-950 px-4 py-7 text-center"
                 >
                   <span className="font-display text-2xl font-semibold text-cream-50 sm:text-3xl">
                     {stat.value}
@@ -273,22 +280,26 @@ export default function CateringPage() {
         </Container>
       </section>
 
-      {/* ── 6. Enquiry ── */}
-      <section id="enquiry" className="relative isolate scroll-mt-24 py-20 sm:py-28">
+      {/* ── 6. Enquiry — warm form card ── */}
+      <section
+        id="enquiry"
+        className="relative isolate scroll-mt-24 bg-cream-50 bg-paper py-16 sm:py-28"
+      >
         <DoodleScatter preset="soft" />
         <Container size="narrow">
           <Reveal>
-            <SectionHeading
-              eyebrow="Get a quote"
-              title="Tell us about your event"
-              description="Fill in the form and our team will get back to you within one business day with a tailored proposal."
-              align="center"
-              className="mb-12"
-            />
+            <div className="mb-12 flex flex-col items-center gap-3 text-center">
+              <ClayEyebrow>Get a quote</ClayEyebrow>
+              <SectionHeading
+                title="Tell us about your event"
+                description="Fill in the form and our team will get back to you within one business day with a tailored proposal."
+                align="center"
+              />
+            </div>
           </Reveal>
 
           <Reveal delay={0.08}>
-            <div className="rounded-3xl border border-cream-200 bg-white p-6 shadow-subtle sm:p-10">
+            <div className="rounded-3xl border border-sand-300 bg-cream-50 p-6 shadow-warm sm:p-10">
               <CateringForm />
             </div>
           </Reveal>
@@ -298,7 +309,7 @@ export default function CateringPage() {
               Prefer to talk?{" "}
               <a
                 href={SITE.phoneHref}
-                className="font-semibold text-forest-800 underline underline-offset-4 hover:text-gold-600"
+                className="font-semibold text-clay-600 underline underline-offset-4 hover:text-clay-500"
               >
                 Call us at {SITE.phone}
               </a>
@@ -307,16 +318,14 @@ export default function CateringPage() {
         </Container>
       </section>
 
-      {/* ── 7. FAQ ── */}
-      <section className="bg-cream-100/50 py-20 sm:py-28">
+      {/* ── 7. FAQ — warm sand ── */}
+      <section className="bg-sand-100 bg-weave py-16 sm:py-28">
         <Container size="narrow">
           <Reveal>
-            <SectionHeading
-              eyebrow="Good to know"
-              title="Catering questions, answered"
-              align="center"
-              className="mb-12"
-            />
+            <div className="mb-12 flex flex-col items-center gap-3 text-center">
+              <ClayEyebrow>Good to know</ClayEyebrow>
+              <SectionHeading title="Catering questions, answered" align="center" />
+            </div>
           </Reveal>
 
           <dl className="flex flex-col gap-4">
@@ -324,7 +333,7 @@ export default function CateringPage() {
               <Reveal key={faq.q} delay={i * 0.06}>
                 <div
                   className={cn(
-                    "rounded-2xl border border-cream-200 bg-white p-6 shadow-subtle"
+                    "rounded-2xl border border-sand-300 bg-cream-50 p-6 shadow-warm"
                   )}
                 >
                   <dt className="font-display text-lg font-semibold text-forest-900">

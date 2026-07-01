@@ -139,10 +139,10 @@ function SuccessPanel({
 
 function Row({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
   return (
-    <div className="flex items-center gap-2.5">
-      <span className="text-gold-500">{icon}</span>
+    <div className="flex min-w-0 items-center gap-2.5">
+      <span className="shrink-0 text-gold-500">{icon}</span>
       <span className="w-12 shrink-0 font-medium text-forest-500">{label}</span>
-      <span className="font-semibold text-forest-800">{value}</span>
+      <span className="min-w-0 break-words font-semibold text-forest-800">{value}</span>
     </div>
   );
 }

@@ -1,9 +1,9 @@
 import {
-  getAdminStats,
   getReservations,
   getCateringInquiries,
   getFeaturedItems,
 } from "@/lib/queries";
+import { getDashboardData } from "@/lib/dashboard-data";
 import { DashboardContent } from "@/components/admin/DashboardContent";
 
 export const metadata = {
@@ -12,21 +12,30 @@ export const metadata = {
 };
 
 export default async function AdminDashboardPage() {
-  const [stats, reservations, catering, featuredRaw] = await Promise.all([
-    getAdminStats(),
+  const [dashboard, reservations, catering, featuredRaw] = await Promise.all([
+    getDashboardData(),
     getReservations(),
     getCateringInquiries(),
     getFeaturedItems(6),
   ]);
 
-  const recentReservations = reservations.slice(0, 5);
-  const recentCatering = catering.slice(0, 5);
+  const recentReservations = reservations.slice(0, 5).map((r) => ({
+    id: r.id,
+    name: r.name,
+    date: r.date,
+    time: r.time,
+    partySize: r.partySize,
+    status: r.status,
+  }));
 
-  const reservationBreakdown = {
-    pending: reservations.filter((r) => r.status === "pending").length,
-    confirmed: reservations.filter((r) => r.status === "confirmed").length,
-    cancelled: reservations.filter((r) => r.status === "cancelled").length,
-  };
+  const recentCatering = catering.slice(0, 5).map((c) => ({
+    id: c.id,
+    name: c.name,
+    eventType: c.eventType,
+    eventDate: c.eventDate,
+    guestCount: c.guestCount,
+    status: c.status,
+  }));
 
   const featuredItems = featuredRaw.map((item) => ({
     id: item.id,
@@ -39,11 +48,10 @@ export default async function AdminDashboardPage() {
 
   return (
     <DashboardContent
-      stats={stats}
+      data={dashboard}
       recentReservations={recentReservations}
       recentCatering={recentCatering}
       featuredItems={featuredItems}
-      reservationBreakdown={reservationBreakdown}
     />
   );
 }

@@ -1,23 +1,26 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { ArrowRight } from "lucide-react";
 
-import { getCategoriesWithItems, getFeaturedItems } from "@/lib/queries";
 import { SITE } from "@/lib/constants";
 
 import { Container } from "@/components/ui/Container";
 import { buttonClasses } from "@/components/ui/Button";
 import { OrderButton } from "@/components/site/OrderButton";
 import { Reveal } from "@/components/motion/Reveal";
-import { DoodleScatter } from "@/components/decor/DoodleScatter";
 
+import { MountainDivider } from "@/components/decor/MountainDivider";
 import { Hero } from "@/components/home/Hero";
-import { CategoryCircles } from "@/components/home/CategoryCircles";
-import { DishHighlightCard } from "@/components/home/DishHighlightCard";
-import { ScrollRow } from "@/components/home/ScrollRow";
+import { WhyNamche } from "@/components/home/WhyNamche";
+import { SignatureDishes } from "@/components/home/SignatureDishes";
+import { MenuPreview } from "@/components/home/MenuPreview";
+import { KitchenBand } from "@/components/home/KitchenBand";
+import { StorySection } from "@/components/home/StorySection";
+import { GalleryStrip } from "@/components/home/GalleryStrip";
+import { ReviewsSection } from "@/components/home/ReviewsSection";
 import { CateringTeaser } from "@/components/home/CateringTeaser";
-import { Testimonial } from "@/components/home/Testimonial";
+import { DeliveryPartners } from "@/components/home/DeliveryPartners";
 import { Faq } from "@/components/home/Faq";
+import { VisitUs } from "@/components/home/VisitUs";
 import { MapSection } from "@/components/home/MapSection";
 
 export const metadata: Metadata = {
@@ -26,118 +29,59 @@ export const metadata: Metadata = {
 };
 
 export default async function HomePage() {
-  const [categories, featured] = await Promise.all([
-    getCategoriesWithItems({ onlyAvailable: true }),
-    getFeaturedItems(8),
-  ]);
-
-  const featuredIds = new Set(featured.map((f) => f.id));
-  const freshPicks = categories
-    .map((c) => {
-      const item = c.items.find((i) => !featuredIds.has(i.id));
-      return item ? { ...item, category: { name: c.name } } : null;
-    })
-    .filter((x): x is NonNullable<typeof x> => Boolean(x))
-    .slice(0, 10);
-
-  const categoryChips = categories.map((c) => ({
-    name: c.name,
-    slug: c.slug,
-    count: c.items.length,
-  }));
-
   return (
     <>
-      {/* 1. Hero */}
+      {/* 1. Hero — dark, immersive */}
       <Hero />
 
-      {/* 2. Most loved dishes */}
-      {featured.length > 0 && (
-        <section className="relative isolate bg-cream-100/50 py-16 sm:py-20">
-          <DoodleScatter preset="soft" />
-          <Container>
-            <div className="mb-10 flex items-end justify-between gap-4">
-              <div>
-                <p className="text-xs font-medium uppercase tracking-widest text-forest-400">
-                  Crowd favourites
-                </p>
-                <h2 className="mt-2 font-sans text-2xl font-medium tracking-tight text-forest-900 sm:text-3xl">
-                  The dishes everyone orders
-                </h2>
-              </div>
-              <Link
-                href="/menu"
-                className="hidden shrink-0 text-sm font-medium text-forest-600 underline-offset-4 hover:text-forest-800 hover:underline sm:inline"
-              >
-                Full menu &rarr;
-              </Link>
-            </div>
-            <ScrollRow ariaLabel="Most loved dishes">
-              {featured.map((dish) => (
-                <DishHighlightCard key={dish.id} item={dish} />
-              ))}
-            </ScrollRow>
-          </Container>
-        </section>
-      )}
+      {/* Signature Himalayan ridge transition into the warm sections */}
+      <MountainDivider skyClass="bg-forest-950" rangeClass="text-sand-100" />
 
-      {/* 3. Category circles */}
-      {categoryChips.length > 0 && (
-        <CategoryCircles categories={categoryChips} />
-      )}
+      {/* 2. Why Namche — slim trust strip */}
+      <WhyNamche />
 
-      {/* 4. Fresh from the kitchen */}
-      {freshPicks.length > 0 && (
-        <section className="py-16 sm:py-20">
-          <Container>
-            <div className="mb-10 flex items-end justify-between gap-4">
-              <div>
-                <p className="text-xs font-medium uppercase tracking-widest text-forest-400">
-                  Fresh from the kitchen
-                </p>
-                <h2 className="mt-2 font-sans text-2xl font-medium tracking-tight text-forest-900 sm:text-3xl">
-                  More to discover
-                </h2>
-              </div>
-              <Link
-                href="/menu"
-                className="hidden shrink-0 text-sm font-medium text-forest-600 underline-offset-4 hover:text-forest-800 hover:underline sm:inline"
-              >
-                See it all &rarr;
-              </Link>
-            </div>
-            <ScrollRow ariaLabel="Fresh picks">
-              {freshPicks.map((dish) => (
-                <DishHighlightCard key={dish.id} item={dish} />
-              ))}
-            </ScrollRow>
-          </Container>
-        </section>
-      )}
+      {/* 3. Signature dishes — large food photography */}
+      <SignatureDishes />
 
-      {/* 5. Testimonial */}
-      <Testimonial />
+      {/* 4. Menu preview — real menu on dark forest */}
+      <MenuPreview />
 
-      {/* 6. Catering */}
+      {/* 4b. Cinematic full-bleed kitchen band */}
+      <KitchenBand />
+
+      {/* 5. Our story / Himalayan heritage */}
+      <StorySection />
+
+      {/* 6. Gallery — full-bleed food images */}
+      <GalleryStrip />
+
+      {/* 7. Reviews — dark forest */}
+      <ReviewsSection />
+
+      {/* 8. Catering */}
       <CateringTeaser />
 
-      {/* 7. FAQ */}
+      {/* 9. Delivery partners — order your way */}
+      <DeliveryPartners />
+
+      {/* 10. FAQ */}
       <Faq />
 
-      {/* 9. Map */}
-      <MapSection />
+      {/* 11. Visit us — info + map (map heading suppressed; VisitUs provides it) */}
+      <VisitUs />
+      <MapSection showHeading={false} />
 
-      {/* 10. Reserve + Order band */}
-      <section className="pb-20 sm:pb-28">
+      {/* 12. Reserve + Order band — dark forest CTA */}
+      <section className="bg-forest-800 py-20 text-cream-100 sm:py-28">
         <Container>
           <Reveal>
-            <div className="relative isolate flex flex-col items-start justify-between gap-8 overflow-hidden rounded-xl bg-forest-800 px-8 py-12 sm:px-12 sm:py-14 lg:flex-row lg:items-center">
-              <DoodleScatter preset="band" />
+            <div className="flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-center">
               <div className="max-w-xl">
-                <h2 className="font-sans text-2xl font-medium tracking-tight text-cream-50 sm:text-3xl">
+                <span className="block h-px w-12 bg-gold-400" />
+                <h2 className="mt-6 font-display text-4xl font-medium tracking-tight text-cream-50 sm:text-5xl">
                   Hungry now? Let&rsquo;s fix that.
                 </h2>
-                <p className="mt-2 text-base text-cream-200/70">
+                <p className="mt-4 text-cream-200/75">
                   Order online for pickup and delivery, or book a table and dine
                   in with us.
                 </p>
@@ -150,7 +94,7 @@ export default async function HomePage() {
                     variant: "outline",
                     size: "lg",
                     className:
-                      "border-cream-50/20 text-cream-50 hover:bg-cream-50/10",
+                      "border-cream-50/30 text-cream-50 hover:bg-cream-50/10",
                   })}
                 >
                   Book a Table

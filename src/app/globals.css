@@ -43,6 +43,20 @@
   --color-spice-500: #d2693c;
   --color-spice-600: #b04e29;
 
+  /* Clay — deep brick/terracotta for the warm Himalayan-market direction */
+  --color-clay-300: #d78c63;
+  --color-clay-400: #c06a3f;
+  --color-clay-500: #a5522f;
+  --color-clay-600: #874325;
+  --color-clay-700: #6b3520;
+
+  /* Sand / jute — warm kraft-paper neutrals between cream and gold */
+  --color-sand-100: #f3ecdb;
+  --color-sand-200: #e8d9bf;
+  --color-sand-300: #d9c39c;
+  --color-sand-400: #c6a97b;
+  --color-sand-500: #ac8c5d;
+
   /* Fonts */
   --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
@@ -84,6 +98,8 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  /* Never allow a stray element to push the page wider than the phone. */
+  overflow-x: hidden;
 }
 
 body {
@@ -147,6 +163,23 @@ h1, h2, h3, h4, .font-display {
     animation: spin-slow 24s linear infinite;
   }
 
+  /* Slow cinematic zoom for hero photography (calm, no glow). */
+  @keyframes kenburns {
+    from { transform: scale(1.03); }
+    to { transform: scale(1.13); }
+  }
+  .animate-kenburns {
+    animation: kenburns 26s var(--ease-out-soft) infinite alternate;
+    will-change: transform;
+  }
+
+  /* Gentle vertical bob for a scroll cue. */
+  @keyframes soft-bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
+  }
+  .animate-soft-bob { animation: soft-bob 2.4s ease-in-out infinite; }
+
   /* ---- Food-doodle ambient motion -------------------------------- */
   @keyframes doodle-float {
     0%, 100% { transform: translateY(0); }
@@ -172,6 +205,27 @@ h1, h2, h3, h4, .font-display {
     background-image: radial-gradient(circle at 1px 1px,
       rgba(15, 30, 23, 0.045) 1px, transparent 0);
     background-size: 22px 22px;
+  }
+
+  /* Warmer, layered kraft-paper grain for the Himalayan-market surfaces. */
+  .bg-paper {
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(107, 53, 32, 0.05) 1px, transparent 0),
+      radial-gradient(circle at 11px 11px, rgba(107, 53, 32, 0.035) 1px, transparent 0);
+    background-size: 22px 22px, 22px 22px;
+  }
+
+  /* Very faint woven-jute texture — market-stall fabric, no glow. */
+  .bg-weave {
+    background-image:
+      repeating-linear-gradient(45deg, rgba(107, 53, 32, 0.03) 0 1px, transparent 1px 7px),
+      repeating-linear-gradient(-45deg, rgba(107, 53, 32, 0.025) 0 1px, transparent 1px 7px);
+  }
+
+  /* Warm-tinted depth shadow for cards (soft, not a glow). */
+  .shadow-warm {
+    box-shadow: 0 2px 4px rgba(60, 40, 20, 0.05),
+      0 14px 32px -14px rgba(60, 40, 20, 0.20);
   }
 
   .scrollbar-none {

@@ -37,11 +37,12 @@ export function OpenStatus({
 
   const dot = (
     <span className="relative flex h-2 w-2 shrink-0">
+      {/* Calm static indicator — a soft ring for "open", no pulsing/blinking. */}
       {status?.open && (
         <span
           className={cn(
-            "absolute inline-flex h-full w-full animate-ping rounded-full opacity-60",
-            status.closingSoon ? "bg-gold-500" : "bg-forest-400"
+            "absolute -inset-1 rounded-full opacity-30",
+            status.closingSoon ? "bg-gold-500/40" : "bg-forest-400/40"
           )}
         />
       )}

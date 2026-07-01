@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ChevronDown, ArrowRight } from "lucide-react";
@@ -11,7 +10,7 @@ import { OrderButton } from "./OrderButton";
 import { OpenStatus } from "./OpenStatus";
 import { NAV_LINKS } from "@/lib/constants";
 import { buttonClasses } from "@/components/ui/Button";
-import { cn, formatPrice } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 
 /* ------------------------------------------------------------------ */
 /*  Animation variants                                                */
@@ -76,6 +75,7 @@ type DropdownCategory = {
   id: string;
   name: string;
   slug: string;
+  tagline?: string | null;
   items: DropdownItem[];
 };
 
@@ -127,22 +127,20 @@ export function SiteHeader({
     return () => document.removeEventListener("mousedown", onClick);
   }, [dropdownOpen]);
 
-  const allDropdownItems = menuCategories.flatMap((c) => c.items);
-
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 border-b bg-cream-50/85 backdrop-blur-md transition-all duration-300",
+        "sticky top-0 z-50 border-b bg-cream-50/90 backdrop-blur-md transition-all duration-300",
         scrolled
           ? "border-cream-200 shadow-[0_1px_12px_rgba(15,30,23,0.04)]"
-          : "border-transparent"
+          : "border-cream-200/60"
       )}
     >
-      <nav className="mx-auto flex h-[4.25rem] max-w-7xl items-center gap-6 px-5 sm:px-8">
-        <Logo />
+      <nav className="mx-auto flex h-[4.5rem] max-w-7xl items-center gap-6 px-5 sm:px-8">
+        <Logo className="h-10" />
 
         {/* Desktop nav */}
-        <div className="hidden items-center gap-0.5 md:flex">
+        <div className="hidden items-center gap-1 md:flex">
           {NAV_LINKS.map((link) => {
             const isMenu = link.href === "/menu";
             const active =
@@ -153,17 +151,15 @@ export function SiteHeader({
             if (isMenu) {
               return (
                 <div key={link.href} className="relative">
-                  <motion.button
+                  <button
                     ref={triggerRef}
                     onClick={() => setDropdownOpen((v) => !v)}
                     onMouseEnter={() => setDropdownOpen(true)}
-                    whileHover={{ y: -1 }}
-                    transition={{ type: "spring" as const, stiffness: 400, damping: 22 }}
                     className={cn(
-                      "flex items-center gap-1 px-3 py-2 text-sm font-medium transition-colors",
+                      "flex items-center gap-1 px-3 py-2 text-[0.8rem] font-medium uppercase tracking-[0.14em] transition-colors",
                       active || dropdownOpen
                         ? "text-forest-900"
-                        : "text-forest-500 hover:text-forest-800"
+                        : "text-forest-500 hover:text-forest-900"
                     )}
                   >
                     {link.label}
@@ -173,9 +169,9 @@ export function SiteHeader({
                     >
                       <ChevronDown className="h-3.5 w-3.5" />
                     </motion.span>
-                  </motion.button>
+                  </button>
 
-                  {/* Mega dropdown */}
+                  {/* Menu dropdown — presented like a real menu */}
                   <AnimatePresence>
                     {dropdownOpen && (
                       <motion.div
@@ -185,78 +181,35 @@ export function SiteHeader({
                         initial="hidden"
                         animate="visible"
                         exit="exit"
-                        className="absolute -left-4 top-full mt-2 w-[640px] rounded-xl border border-cream-200 bg-white p-5 shadow-subtle"
+                        className="absolute -left-4 top-full mt-3 w-[420px] overflow-hidden rounded-2xl border border-forest-800 bg-forest-900 p-6 text-cream-100 shadow-subtle"
                       >
-                        <div className="flex gap-6">
-                          {/* Categories column */}
-                          <div className="flex w-40 shrink-0 flex-col gap-1">
-                            <p className="mb-2 text-[0.65rem] font-semibold uppercase tracking-wider text-forest-400">
-                              Categories
-                            </p>
-                            {menuCategories.map((cat) => (
-                              <Link
-                                key={cat.id}
-                                href={`/menu#${cat.slug}`}
-                                onClick={() => setDropdownOpen(false)}
-                                className="rounded-md px-2.5 py-1.5 text-sm text-forest-600 transition-colors hover:bg-forest-50 hover:text-forest-900"
-                              >
-                                {cat.name}
-                              </Link>
-                            ))}
+                        <p className="mb-4 text-[0.65rem] font-semibold uppercase tracking-[0.25em] text-gold-400">
+                          Our Menu
+                        </p>
+                        <div className="grid grid-cols-2 gap-x-5 gap-y-1">
+                          {menuCategories.map((cat) => (
                             <Link
-                              href="/menu"
+                              key={cat.id}
+                              href={`/menu#${cat.slug}`}
                               onClick={() => setDropdownOpen(false)}
-                              className="mt-2 inline-flex items-center gap-1 rounded-md px-2.5 py-1.5 text-sm font-medium text-forest-800 transition-colors hover:bg-forest-50"
+                              className="group flex items-baseline gap-2 rounded-md py-1.5 text-sm text-cream-200/80 transition-colors hover:text-cream-50"
                             >
-                              View full menu
-                              <ArrowRight className="h-3 w-3" />
+                              <span className="font-display text-[0.95rem] tracking-tight">
+                                {cat.name}
+                              </span>
+                              <span className="h-px flex-1 translate-y-[-0.15em] border-b border-dotted border-cream-100/15 transition-colors group-hover:border-gold-400/50" />
                             </Link>
-                          </div>
-
-                          {/* Divider */}
-                          <div className="w-px bg-cream-200" />
-
-                          {/* Items grid */}
-                          <div className="flex-1">
-                            <p className="mb-3 text-[0.65rem] font-semibold uppercase tracking-wider text-forest-400">
-                              Popular picks
-                            </p>
-                            <div className="grid grid-cols-3 gap-3">
-                              {allDropdownItems.slice(0, 6).map((item) => (
-                                <Link
-                                  key={item.id}
-                                  href="/menu"
-                                  onClick={() => setDropdownOpen(false)}
-                                  className="group flex flex-col gap-1.5 rounded-lg p-1.5 transition-colors hover:bg-cream-100"
-                                >
-                                  <div className="relative aspect-square overflow-hidden rounded-lg bg-forest-800">
-                                    {item.imageUrl ? (
-                                      <Image
-                                        src={item.imageUrl}
-                                        alt={item.name}
-                                        fill
-                                        sizes="80px"
-                                        className="object-contain p-2 transition-transform duration-300 group-hover:scale-105"
-                                      />
-                                    ) : (
-                                      <div className="flex h-full w-full items-center justify-center text-xs text-cream-200/40">
-                                        No image
-                                      </div>
-                                    )}
-                                  </div>
-                                  <p className="text-[0.75rem] font-medium leading-tight text-forest-900">
-                                    {item.name}
-                                  </p>
-                                  {item.price != null && (
-                                    <p className="text-[0.7rem] font-semibold text-forest-600">
-                                      {formatPrice(item.price)}
-                                    </p>
-                                  )}
-                                </Link>
-                              ))}
-                            </div>
-                          </div>
+                          ))}
                         </div>
+                        <span className="mt-5 block h-px w-full bg-forest-800" />
+                        <Link
+                          href="/menu"
+                          onClick={() => setDropdownOpen(false)}
+                          className="mt-4 inline-flex items-center gap-1.5 text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-gold-400 transition-colors hover:text-gold-300"
+                        >
+                          View full menu
+                          <ArrowRight className="h-3.5 w-3.5" />
+                        </Link>
                       </motion.div>
                     )}
                   </AnimatePresence>
@@ -265,38 +218,47 @@ export function SiteHeader({
             }
 
             return (
-              <motion.div
-                key={link.href}
-                whileHover={{ y: -1 }}
-                transition={{ type: "spring" as const, stiffness: 400, damping: 22 }}
-                className="relative"
-              >
+              <div key={link.href} className="relative">
                 <Link
                   href={link.href}
                   className={cn(
-                    "relative px-3 py-2 text-sm font-medium transition-colors",
+                    "relative px-3 py-2 text-[0.8rem] font-medium uppercase tracking-[0.14em] transition-colors",
                     active
                       ? "text-forest-900"
-                      : "text-forest-500 hover:text-forest-800"
+                      : "text-forest-500 hover:text-forest-900"
                   )}
                 >
                   {link.label}
                   {active && (
                     <motion.span
                       layoutId="activeNav"
-                      className="absolute bottom-0 left-3 right-3 h-0.5 rounded-full bg-gold-400"
+                      className="absolute bottom-0 left-3 right-3 h-px bg-gold-400"
                       transition={{ type: "spring" as const, stiffness: 380, damping: 30 }}
                     />
                   )}
                 </Link>
-              </motion.div>
+              </div>
             );
           })}
         </div>
 
-        <div className="ml-auto flex items-center gap-3">
-          <OpenStatus variant="pill" className="hidden lg:inline-flex" />
-          <OrderButton size="sm" className="hidden sm:inline-flex" />
+        <div className="ml-auto flex items-center gap-2.5">
+          <OpenStatus variant="pill" className="hidden xl:inline-flex" />
+          <Link
+            href="/reservations"
+            className={buttonClasses({
+              variant: "outline",
+              size: "sm",
+              className: "hidden lg:inline-flex",
+            })}
+          >
+            Reserve
+          </Link>
+          <OrderButton
+            variant="gold"
+            size="sm"
+            className="hidden sm:inline-flex"
+          />
 
           <motion.button
             type="button"
@@ -389,7 +351,7 @@ export function SiteHeader({
               >
                 Book a Table
               </Link>
-              <OrderButton size="md" />
+              <OrderButton variant="gold" size="md" />
             </motion.div>
           </motion.div>
         )}

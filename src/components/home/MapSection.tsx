@@ -14,29 +14,31 @@ const LOCATION = {
   city: SITE.address.line2,
 };
 
-export function MapSection() {
+export function MapSection({ showHeading = true }: { showHeading?: boolean }) {
   const city = SITE.address.line2.split(",")[0].trim();
   return (
     <section className="bg-white py-12 sm:py-16">
       <Container>
-        <div className="mb-8 text-center">
-          <Reveal>
-            <p className="text-xs font-medium uppercase tracking-[0.2em] text-forest-400">
-              Find us
-            </p>
-          </Reveal>
-          <Reveal delay={0.04}>
-            <h2 className="mt-3 font-display text-4xl font-semibold tracking-tight text-forest-900 sm:text-5xl">
-              Visit us in {city}
-            </h2>
-          </Reveal>
-          <Reveal delay={0.08}>
-            <p className="mx-auto mt-3 max-w-md text-lg leading-relaxed text-forest-500">
-              Find us on {LOCATION.address}. Come by for dine-in or pick up your
-              order.
-            </p>
-          </Reveal>
-        </div>
+        {showHeading && (
+          <div className="mb-8 text-center">
+            <Reveal>
+              <p className="text-xs font-medium uppercase tracking-[0.2em] text-forest-400">
+                Find us
+              </p>
+            </Reveal>
+            <Reveal delay={0.04}>
+              <h2 className="mt-3 font-display text-4xl font-semibold tracking-tight text-forest-900 sm:text-5xl">
+                Visit us in {city}
+              </h2>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <p className="mx-auto mt-3 max-w-md text-lg leading-relaxed text-forest-500">
+                Find us on {LOCATION.address}. Come by for dine-in or pick up your
+                order.
+              </p>
+            </Reveal>
+          </div>
+        )}
 
         <Reveal delay={0.1}>
           <div className="overflow-hidden rounded-2xl border border-cream-200 shadow-subtle">

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { Plus } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/motion/Reveal";
 import { cn } from "@/lib/utils";
@@ -9,11 +9,11 @@ import { cn } from "@/lib/utils";
 const FAQS = [
   {
     q: "Do you offer halal options?",
-    a: "Yes — all our meat is 100% halal. We also have a wide selection of vegetarian and vegan dishes.",
+    a: "Yes — all our meat is 100% halal. We also serve a generous selection of vegetarian and vegan dishes.",
   },
   {
     q: "Can I order online for pickup or delivery?",
-    a: "Absolutely. You can order directly through our website or call us. We deliver within Calgary and offer scheduled pickups.",
+    a: "Absolutely. Order directly through our website or give us a call. We deliver within Ottawa and offer scheduled pickups.",
   },
   {
     q: "How far in advance should I book catering?",
@@ -33,58 +33,82 @@ export function Faq() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section className="bg-cream-50 py-12 sm:py-16">
+    <section className="bg-paper bg-cream-50 py-20 sm:py-28">
       <Container className="max-w-3xl">
         <Reveal>
-          <p className="text-center text-xs font-medium uppercase tracking-[0.2em] text-forest-400">
-            Got questions?
+          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-clay-500">
+            Good to know
           </p>
         </Reveal>
         <Reveal delay={0.04}>
-          <h2 className="mt-3 text-center font-display text-4xl font-semibold tracking-tight text-forest-900 sm:text-5xl">
+          <span className="mt-5 block h-px w-12 bg-clay-400" />
+        </Reveal>
+        <Reveal delay={0.08}>
+          <h2 className="mt-6 font-display text-4xl font-medium tracking-tight text-forest-900 sm:text-5xl">
             Frequently asked
           </h2>
         </Reveal>
 
-        <div className="mt-10 flex flex-col gap-3">
+        <div className="mt-12 space-y-3">
           {FAQS.map((faq, i) => {
             const isOpen = open === i;
             return (
-              <Reveal key={i} delay={0.05 * i}>
-                <button
-                  type="button"
-                  onClick={() => setOpen(isOpen ? null : i)}
+              <Reveal key={i} delay={0.04 * i} as="div">
+                <div
                   className={cn(
-                    "flex w-full flex-col rounded-xl border bg-white px-5 py-4 text-left transition-all",
+                    "rounded-2xl border transition-colors duration-300",
                     isOpen
-                      ? "border-forest-200 shadow-subtle"
-                      : "border-cream-200 hover:border-forest-200"
+                      ? "border-sand-300 bg-cream-100 shadow-warm"
+                      : "border-cream-300 bg-cream-100/60 hover:border-sand-300 hover:bg-cream-100"
                   )}
                 >
-                  <div className="flex items-center justify-between gap-4">
-                    <span className="text-sm font-semibold text-forest-900">
+                  <button
+                    type="button"
+                    onClick={() => setOpen(isOpen ? null : i)}
+                    aria-expanded={isOpen}
+                    className="flex w-full items-center justify-between gap-6 px-6 py-5 text-left sm:px-7"
+                  >
+                    <span
+                      className={cn(
+                        "font-display text-lg tracking-tight transition-colors sm:text-xl",
+                        isOpen ? "text-forest-900" : "text-forest-800"
+                      )}
+                    >
                       {faq.q}
                     </span>
-                    <ChevronDown
+                    <span
                       className={cn(
-                        "h-4 w-4 shrink-0 text-forest-500 transition-transform duration-300",
-                        isOpen && "rotate-180"
+                        "flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition-colors duration-300",
+                        isOpen
+                          ? "border-clay-400 bg-clay-500 text-cream-50"
+                          : "border-sand-300 bg-sand-100 text-clay-500"
                       )}
-                    />
-                  </div>
+                      aria-hidden="true"
+                    >
+                      <Plus
+                        className={cn(
+                          "h-4 w-4 transition-transform duration-300",
+                          isOpen && "rotate-45"
+                        )}
+                        strokeWidth={1.8}
+                      />
+                    </span>
+                  </button>
                   <div
                     className={cn(
                       "grid transition-all duration-300",
-                      isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+                      isOpen
+                        ? "grid-rows-[1fr] opacity-100"
+                        : "grid-rows-[0fr] opacity-0"
                     )}
                   >
                     <div className="overflow-hidden">
-                      <p className="pt-3 text-sm leading-relaxed text-forest-500">
+                      <p className="max-w-2xl px-6 pb-6 leading-relaxed text-forest-700 text-pretty sm:px-7">
                         {faq.a}
                       </p>
                     </div>
                   </div>
-                </button>
+                </div>
               </Reveal>
             );
           })}

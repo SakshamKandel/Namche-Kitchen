@@ -28,6 +28,77 @@ type SeedCategory = {
   items: SeedItem[];
 };
 
+/**
+ * Assign an on-brand local photo (/public/menu/*) to a dish, by name first and
+ * category second. Uses distinct momo/shawarma/curry shots for real variety.
+ * Keep in sync with scripts/backfill-images.mjs.
+ */
+function imageForDish(name: string, categorySlug: string): string {
+  const n = (name || "").toLowerCase();
+  const has = (...w: string[]) => w.every((s) => n.includes(s));
+
+  // Momo — distinct photo per preparation.
+  if (n.includes("momo")) {
+    if (has("jhol") || has("soup")) return "/menu/momo-jhol.jpg";
+    if (has("pan") || has("fried")) return "/menu/momo-fried.jpg";
+    if (has("chilli") || has("chili")) return "/menu/momo-chilli.jpg";
+    return "/menu/momo-steam.jpg";
+  }
+  // Noodles
+  if (n.includes("chowmein")) return "/menu/chowmein.jpg";
+  if (n.includes("noodle")) return "/menu/noodles.jpg";
+  // Curries & chilli
+  if (has("butter", "chicken")) return "/menu/butter-chicken.jpg";
+  if (n.includes("paneer")) return "/menu/saag-paneer.jpg";
+  if (has("chicken", "chilli") || has("chicken", "chili"))
+    return "/menu/chilli-chicken.jpg";
+  if (n.includes("butter")) return "/menu/butter-chicken.jpg";
+  // Shawarma family
+  if (n.includes("donair")) return "/menu/donair.jpg";
+  if (n.includes("falafel")) return "/menu/falafel.jpg";
+  if (n.includes("shawarma")) {
+    if (has("platter") || has("bowl") || has("family") || has("trio"))
+      return "/menu/shawarma-platter.jpg";
+    return "/menu/shawarma-wrap.jpg";
+  }
+  if (n.includes("trio") || n.includes("platter")) return "/menu/shawarma-platter.jpg";
+  // Sides / comfort
+  if (n.includes("poutine")) return "/menu/poutine.jpg";
+  if (n.includes("fries") || n.includes("potato")) return "/menu/fries.jpg";
+  if (n.includes("burger")) return "/menu/burger.jpg";
+  if (n.includes("wing") || n.includes("strip")) return "/menu/wings.jpg";
+  if (n.includes("salad") || n.includes("tabbouli")) return "/menu/salad.jpg";
+  // Drinks
+  if (n.includes("tea")) return "/menu/chai.jpg";
+  if (
+    n.includes("juice") || n.includes("drink") || n.includes("water") ||
+    n.includes("yogurt") || n.includes("nectar") || n.includes("can")
+  )
+    return "/menu/cold-drink.jpg";
+  if (n.includes("buff")) return "/menu/buff.jpg";
+
+  const byCat: Record<string, string> = {
+    momo: "/menu/momo-steam.jpg",
+    "limited-selection": "/menu/buff.jpg",
+    "hakka-noodles": "/menu/noodles.jpg",
+    chowmein: "/menu/chowmein.jpg",
+    "curry-comforts": "/menu/butter-chicken.jpg",
+    "chilli-kicks": "/menu/chilli-chicken.jpg",
+    salads: "/menu/salad.jpg",
+    "combo-meals": "/menu/feast.jpg",
+    burgers: "/menu/burger.jpg",
+    "wings-strips": "/menu/wings.jpg",
+    "poutine-fries": "/menu/poutine.jpg",
+    "shawarma-sandwiches": "/menu/shawarma-wrap.jpg",
+    "shawarma-combo": "/menu/shawarma-platter.jpg",
+    "shawarma-platters": "/menu/shawarma-platter.jpg",
+    "shawarma-family-platters": "/menu/shawarma-platter.jpg",
+    "shawarma-sides": "/menu/falafel.jpg",
+    drinks: "/menu/chai.jpg",
+  };
+  return byCat[categorySlug] ?? "/menu/feast.jpg";
+}
+
 const MENU: SeedCategory[] = [
   {
     name: "Momo (10 Pcs)",
@@ -227,6 +298,7 @@ async function main() {
             description: item.description ?? null,
             price: item.price ?? null,
             priceLabel: item.priceLabel ?? null,
+            imageUrl: imageForDish(item.name, cat.slug),
             options: item.options ?? null,
             tags: item.tags ?? null,
             spiceLevel: item.spiceLevel ?? 0,

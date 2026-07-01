@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
-import { Doodle } from "@/components/decor/FoodDoodles";
 import { ANNOUNCEMENT } from "@/lib/constants";
 
 const STORAGE_PREFIX = "namche-announce:";
@@ -53,14 +52,10 @@ export function AnnouncementBar() {
   };
 
   return (
-    <div className="relative bg-forest-900 text-cream-50">
+    <div className="relative bg-forest-950 text-cream-100">
       <div className="mx-auto flex max-w-7xl items-center gap-3 px-10 py-2 sm:px-12">
-        <p className="flex flex-1 items-center justify-center gap-2 text-center text-xs sm:text-sm">
-          <Doodle
-            name="sparkle"
-            className="h-3.5 w-3.5 shrink-0 text-gold-400"
-            strokeWidth={1.75}
-          />
+        <p className="flex flex-1 items-center justify-center gap-2.5 text-center text-[0.7rem] font-medium uppercase tracking-[0.18em] sm:text-xs">
+          <span aria-hidden className="inline-block h-1 w-1 shrink-0 rounded-full bg-gold-400" />
           <span className="relative inline-flex min-h-[1.25em] items-center justify-center overflow-hidden">
             <AnimatePresence mode="wait" initial={false}>
               <motion.span
@@ -79,7 +74,7 @@ export function AnnouncementBar() {
           type="button"
           onClick={dismiss}
           aria-label="Dismiss announcement"
-          className="absolute right-3 top-1/2 inline-flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full text-cream-200 transition-colors hover:bg-cream-50/10 hover:text-cream-50"
+          className="absolute right-3 top-1/2 inline-flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full text-cream-200/70 transition-colors hover:bg-cream-50/10 hover:text-cream-50"
         >
           <X className="h-3.5 w-3.5" />
         </button>

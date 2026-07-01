@@ -18,7 +18,7 @@ export default function ContactPage() {
   return (
     <>
       {/* ── Header ── */}
-      <section className="relative isolate bg-forest-800 py-20 sm:py-28">
+      <section className="relative isolate bg-forest-800 py-16 sm:py-28">
         <DoodleScatter preset="band" />
         <Container size="narrow">
           <Reveal>

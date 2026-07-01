@@ -19,7 +19,7 @@ import { OpenStatus } from "@/components/site/OpenStatus";
 
 export const metadata: Metadata = {
   title: `Book a Table — ${SITE.name}`,
-  description: `Reserve a table at ${SITE.name} in Calgary. Online booking for up to 12 guests — Himalayan food, warm atmosphere.`,
+  description: `Reserve a table at ${SITE.name} in Ottawa. Online booking for up to 12 guests — Himalayan food, warm atmosphere.`,
 };
 
 const REASSURANCE = [
